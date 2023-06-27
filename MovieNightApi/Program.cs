@@ -1,11 +1,24 @@
+using Serilog;
+using Azure.Identity;
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console()
+    .CreateLogger();
+
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
+builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
+
+builder.Host.UseSerilog();
 
 builder.Services.AddControllers(options=>
 {
     options.ReturnHttpNotAcceptable = true;
-});
+}).AddNewtonsoftJson();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
