@@ -36,7 +36,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat('wm-sql-db-dev', subscription().subscriptionId)))]",
+      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat('wm-general-config-dev', subscription().subscriptionId)))]",
       "resourceGroup": "[parameters('resourceGroupName')]",
       "apiVersion": "2019-10-01",
       "dependsOn": [
@@ -49,24 +49,22 @@
           "contentVersion": "1.0.0.0",
           "resources": [
             {
-              "name": "wm-sql-db-dev",
-              "type": "Microsoft.KeyVault/vaults",
+              "type": "Microsoft.AppConfiguration/configurationStores",
               "location": "[parameters('resourceLocation')]",
-              "properties": {
-                "sku": {
-                  "family": "A",
-                  "name": "Standard"
-                },
-                "tenantId": "6de0dab5-14b4-4fb4-b899-b86c41bcf2fc",
-                "accessPolicies": [],
-                "enabledForDeployment": true,
-                "enabledForDiskEncryption": false,
-                "enabledForTemplateDeployment": false,
-                "enableSoftDelete": true,
-                "softDeleteRetentionInDays": 90,
-                "enableRbacAuthorization": true
+              "properties": {},
+              "sku": {
+                "name": "standard"
               },
-              "apiVersion": "2016-10-01"
+              "systemData": {
+                "createdBy": "adam.moricz@gmail.com",
+                "createdByType": "User",
+                "createdAt": "2023-06-28T16:30:35+02:00",
+                "lastModifiedBy": "adam.moricz@gmail.com",
+                "lastModifiedByType": "User",
+                "lastModifiedAt": "2023-06-28T16:30:37+02:00"
+              },
+              "name": "wm-general-config-dev",
+              "apiVersion": "2022-05-01"
             }
           ]
         }
@@ -74,6 +72,6 @@
     }
   ],
   "metadata": {
-    "_dependencyType": "secrets.keyVault"
+    "_dependencyType": "appConfig.azure"
   }
 }
