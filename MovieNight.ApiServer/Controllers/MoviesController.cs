@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MovieNight.Core.Managers.Interfaces;
 
 namespace MovieNight.ApiServer.Controllers
 {
@@ -8,11 +9,18 @@ namespace MovieNight.ApiServer.Controllers
     [ApiVersion("1.0")]
     public class MoviesController : ControllerBase
     {
+        private readonly IMovieManager movieManager;
+
+        public MoviesController(IMovieManager movieManager)
+        {
+            this.movieManager = movieManager;
+        }
+
         [HttpGet]
         public async Task<ActionResult> GetMovie()
         {
-            var movie = "Movie";
-            return Ok(movie);
+            var result = movieManager.GetMovie();
+            return Ok(result);
         }
     }
 }

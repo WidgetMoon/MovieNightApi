@@ -1,5 +1,7 @@
 using Serilog;
 using Azure.Identity;
+using MovieNight.Core.Managers.Interfaces;
+using MovieNight.Core.Managers;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
@@ -24,6 +26,8 @@ builder.Services.AddApiVersioning(setupAction =>
     setupAction.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
     setupAction.ReportApiVersions = true;
 });
+
+builder.Services.AddScoped<IMovieManager, MovieManager>();
 
 // Add Azure App Configuration to the container.
 var azAppConfigConnection = builder.Configuration["AppConfig"];
