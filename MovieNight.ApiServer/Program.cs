@@ -6,11 +6,7 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
 
-
 var builder = WebApplication.CreateBuilder(args);
-
-//var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
-//builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
 
 builder.Host.UseSerilog();
 
@@ -19,7 +15,6 @@ builder.Services.AddControllers(options=>
     options.ReturnHttpNotAcceptable = true;
 }).AddNewtonsoftJson();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -34,6 +29,7 @@ builder.Services.AddApiVersioning(setupAction =>
 var azAppConfigConnection = builder.Configuration["AppConfig"];
 if (!string.IsNullOrEmpty(azAppConfigConnection))
 {
+    var credentials = new DefaultAzureCredential(true);
     // Use the connection string if it is available.
     builder.Configuration.AddAzureAppConfiguration(options =>
     {
@@ -42,9 +38,17 @@ if (!string.IsNullOrEmpty(azAppConfigConnection))
         {
             // All configuration values will be refreshed if the sentinel key changes.
             refresh.Register("TestApp:Settings:Sentinel", refreshAll: true);
-        });
+        }).ConfigureKeyVault(kv =>
+        {
+            kv.SetCredential(credentials);
+        })
+        .Select("MovieNight:*")
+        .TrimKeyPrefix("MovieNight:");
     });
 }
+//TODO
+//try to understand how the fuck does this work, until then using the one above config
+/* 
 else if (Uri.TryCreate(builder.Configuration["Endpoints:AppConfig"], UriKind.Absolute, out var endpoint))
 {
     // Use Azure Active Directory authentication.
@@ -60,6 +64,7 @@ else if (Uri.TryCreate(builder.Configuration["Endpoints:AppConfig"], UriKind.Abs
         });
     });
 }
+*/
 builder.Services.AddAzureAppConfiguration();
 
 var app = builder.Build();

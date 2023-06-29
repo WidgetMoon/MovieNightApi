@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MovieNightApi.Controllers
+namespace MovieNight.ApiServer.Controllers
 {
     [Route("api/v{version:apiVersion}/movies")]
     [ApiController]
