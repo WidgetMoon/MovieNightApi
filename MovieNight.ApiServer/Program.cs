@@ -55,9 +55,6 @@ builder.Services.PersistenceServiceRegistrations<MovieNightDbContext>(builder.Co
 
 var app = builder.Build();
 
-var funko = app.Configuration.GetSection("MovieNight:Setting:WhoAmI");
-var conn = app.Configuration.GetConnectionString("MovieNight:ConnectionStrings:DbConnection");
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
