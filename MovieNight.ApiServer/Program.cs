@@ -32,10 +32,9 @@ builder.Services.AddSwaggerGen();
 
 // Add Azure App Configuration to the container.
 var azAppConfigConnection = builder.Configuration["AppConfig"];
+var credentials = new DefaultAzureCredential();
 if (!string.IsNullOrEmpty(azAppConfigConnection))
 {
-    var credentials = new DefaultAzureCredential();
-    
     builder.Configuration.AddAzureAppConfiguration(options =>
     {
         options.Connect(azAppConfigConnection)
@@ -46,6 +45,22 @@ if (!string.IsNullOrEmpty(azAppConfigConnection))
         .Select("MovieNight:*")
         .TrimKeyPrefix("MovieNight:");
 
+    });
+}
+else if (Uri.TryCreate(builder.Configuration["Endpoints:AppConfig"], UriKind.Absolute, out var endpoint))
+{
+    // Use Azure Active Directory authentication.
+    // The identity of this app should be assigned 'App Configuration Data Reader' or 'App Configuration Data Owner' role in App Configuration.
+    // For more information, please visit https://aka.ms/vs/azure-app-configuration/concept-enable-rbac
+    builder.Configuration.AddAzureAppConfiguration(options =>
+    {
+        options.Connect(endpoint, credentials)
+        .ConfigureKeyVault(kv =>
+        {
+            kv.SetCredential(credentials);
+        })
+        .Select("MovieNight:*")
+        .TrimKeyPrefix("MovieNight:");
     });
 }
 
