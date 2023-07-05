@@ -23,19 +23,19 @@ builder.Services.AddControllers(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddApiVersioning(setupAction =>
-{
-    setupAction.AssumeDefaultVersionWhenUnspecified = true;
-    setupAction.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
-    setupAction.ReportApiVersions = true;
-});
+//builder.Services.AddApiVersioning(setupAction =>
+//{
+//    setupAction.AssumeDefaultVersionWhenUnspecified = true;
+//    setupAction.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+//    setupAction.ReportApiVersions = true;
+//});
 
 // Add Azure App Configuration to the container.
 var azAppConfigConnection = builder.Configuration["AppConfig"];
 if (!string.IsNullOrEmpty(azAppConfigConnection))
 {
     var credentials = new DefaultAzureCredential();
-
+    
     builder.Configuration.AddAzureAppConfiguration(options =>
     {
         options.Connect(azAppConfigConnection)

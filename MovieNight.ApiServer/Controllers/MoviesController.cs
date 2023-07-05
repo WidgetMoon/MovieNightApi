@@ -4,9 +4,8 @@ using MovieNight.Core.Handlers.Interfaces;
 
 namespace MovieNight.ApiServer.Controllers
 {
-    [Route("api/v{version:apiVersion}/movies")]
+    [Route("api/movies")]
     [ApiController]
-    [ApiVersion("1.0")]
     public class MoviesController : ControllerBase
     {
         private readonly IMovieHandler _movieHandler;
@@ -27,6 +26,12 @@ namespace MovieNight.ApiServer.Controllers
             }
 
             return NotFound();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetDirector()
+        {
+            return Empty;
         }
     }
 }
