@@ -28,5 +28,11 @@ namespace MovieNight.ApiServer.Controllers
 
             return NotFound();
         }
+
+        [HttpGet]
+        public async Task<ActionResult> GetDirector()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
