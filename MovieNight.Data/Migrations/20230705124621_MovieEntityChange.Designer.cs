@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieNight.Data.DbContexts;
 
@@ -11,9 +12,11 @@ using MovieNight.Data.DbContexts;
 namespace MovieNight.Data.Migrations
 {
     [DbContext(typeof(MovieNightDbContext))]
-    partial class MovieNightDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230705124621_MovieEntityChange")]
+    partial class MovieEntityChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
