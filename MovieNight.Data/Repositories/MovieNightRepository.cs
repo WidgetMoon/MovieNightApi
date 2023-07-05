@@ -19,6 +19,13 @@ namespace MovieNight.Data.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task AddAsync(MovieEntity entity)
+        {
+            if (entity == null) return;
+            await _dbContext.Movies.AddAsync(entity);
+            _dbContext.SaveChanges();
+        }
+
         public Task<IEnumerable<MovieEntity>> GetAllAsync()
         {
             throw new NotImplementedException();
@@ -27,6 +34,11 @@ namespace MovieNight.Data.Repositories
         public async Task<MovieEntity> GetAsync(int id)
         {
             return await _dbContext.Movies.FirstOrDefaultAsync(m => m.Id == id);
+        }
+
+        public async Task<IEnumerable<MovieEntity>> GetRandomMovies(int count)
+        {
+            return await _dbContext.Movies.OrderBy(r => Guid.NewGuid()).Take(count).ToListAsync();
         }
     }
 }

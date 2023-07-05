@@ -10,5 +10,7 @@ namespace MovieNight.Core.Handlers.Interfaces
     public interface IMovieHandler
     {
         Task<MovieEntity> GetMovieById(int id);
+        Task<MovieEntity> GetTop100Movies();
+        Task<IEnumerable<MovieEntity>> GetRandomMovies(int count);
     }
 }

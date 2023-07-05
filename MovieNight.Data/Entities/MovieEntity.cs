@@ -1,23 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MovieNight.Data.Entities
 {
     public class MovieEntity
     {
+        [Key]
         public int Id { get; private set; }
-        public string Title { get; private set; }
-        public float? Rating { get; private set; }
-        public DateTime? DateDownloaded { get; private set; }
+        public string? Title { get; private set; }
+        public DateTime? DateDownloaded { get; set; }
+        public int? Rank { get; private set; }
+        public Uri? Thumbnail { get; set; }
+        public float? Rating { get; set; }
+        public int? Year { get; set; }
+        public Uri? Image { get; set; }
+        public string? Description { get; set; }
+        public Uri? Trailer { get; set; }
+        public IEnumerable<string>? Genres { get; set; }
+        public IEnumerable<string>? Directors { get; set; }
+        public IEnumerable<string>? Writers { get; set; }
+        public string? ImdbId { get; set; }
 
-        public MovieEntity(string title, float? rating, DateTime? dateDownloaded)
+        private MovieEntity() { }
+
+        public MovieEntity(string title, DateTime? dateDownloaded, int rank, Uri thumbnail, float rating, int year, Uri image, string description, Uri trailer, IEnumerable<string> genres, IEnumerable<string> directors, IEnumerable<string> writers, string imdbId)
         {
             Title = title;
-            Rating = rating;
             DateDownloaded = dateDownloaded;
+            Rank = rank;
+            Thumbnail = thumbnail;
+            Rating = rating;
+            Year = year;
+            Image = image;
+            Description = description;
+            Trailer = trailer;
+            Genres = genres;
+            Directors = directors;
+            Writers = writers;
+            ImdbId = imdbId;
         }
     }
 }

@@ -4,9 +4,8 @@ using MovieNight.Core.Handlers.Interfaces;
 
 namespace MovieNight.ApiServer.Controllers
 {
-    [Route("api/v{version:apiVersion}/movies")]
+    [Route("api/movies")]
     [ApiController]
-    [ApiVersion("1.0")]
     public class MoviesController : ControllerBase
     {
         private readonly IMovieHandler _movieHandler;
@@ -16,10 +15,15 @@ namespace MovieNight.ApiServer.Controllers
             _movieHandler = movieHandler;
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GetMovie()
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetMovie(int id)
         {
-            var result = await _movieHandler.GetMovieById(1);
+            if (id < 1 || id > 100)
+            {
+                return BadRequest("Id must be between 1 and 100");
+            }
+
+            var result = await _movieHandler.GetMovieById(id);
 
             if (result is not null)
             {
@@ -29,10 +33,15 @@ namespace MovieNight.ApiServer.Controllers
             return NotFound();
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GetDirector()
+        [HttpGet("random/{count}")]
+        public async Task<ActionResult> GetRandomMovies(int count)
         {
-            throw new NotImplementedException();
+            if(count < 1 || count > 100)
+            {
+                return BadRequest("Count must be between 1 and 100");
+            }
+            var result = await _movieHandler.GetRandomMovies(count);
+            return Ok(result);
         }
     }
 }

@@ -12,9 +12,16 @@ namespace MovieNight.Data.Entities.Configurations
     {
         public void Configure(EntityTypeBuilder<MovieEntity> builder)
         {
+            builder.ToTable("Movie");
             builder.HasKey(x => x.Id);
-            builder.Property(m => m.Title).IsRequired().HasMaxLength(255);
-            builder.Property(m => m.Rating).IsRequired(false);
+
+            builder.Property(m => m.Writers).HasConversion(v => string.Join(',', v),
+                        v => v.Split(',', StringSplitOptions.RemoveEmptyEntries));
+            builder.Property(m => m.Directors).HasConversion(v => string.Join(',', v),
+                        v => v.Split(',', StringSplitOptions.RemoveEmptyEntries));
+            builder.Property(m => m.Genres).HasConversion(v => string.Join(',', v),
+                        v => v.Split(',', StringSplitOptions.RemoveEmptyEntries));
+
         }
     }
 }
