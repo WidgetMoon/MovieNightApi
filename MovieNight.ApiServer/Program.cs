@@ -32,9 +32,10 @@ builder.Services.AddSwaggerGen();
 
 // Add Azure App Configuration to the container.
 var azAppConfigConnection = builder.Configuration["AppConfig"];
-var credentials = new DefaultAzureCredential();
+
 if (!string.IsNullOrEmpty(azAppConfigConnection))
 {
+    var credentials = new DefaultAzureCredential();
     builder.Configuration.AddAzureAppConfiguration(options =>
     {
         options.Connect(azAppConfigConnection)
@@ -54,6 +55,7 @@ else if (Uri.TryCreate(builder.Configuration["Endpoints:AppConfig"], UriKind.Abs
     // For more information, please visit https://aka.ms/vs/azure-app-configuration/concept-enable-rbac
     builder.Configuration.AddAzureAppConfiguration(options =>
     {
+        var credentials = new ManagedIdentityCredential();
         options.Connect(endpoint, credentials)
         .ConfigureKeyVault(kv =>
         {
@@ -70,12 +72,10 @@ builder.Services.PersistenceServiceRegistrations<MovieNightDbContext>(builder.Co
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+
 app.UseAzureAppConfiguration();
 
 app.UseHttpsRedirection();
