@@ -26,13 +26,14 @@ namespace MovieNight.Core.Handlers
         public async Task<MovieEntity> GetTop100Movies()
         {
             var client = new HttpClient();
+            var rapidKey = _configuration["XRapidKey"];
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
                 RequestUri = new Uri("https://imdb-top-100-movies.p.rapidapi.com/"),
                 Headers =
                          {
-                             { "X-RapidAPI-Key", "0aa776835emsh0fa5a8145b88371p1a6cb6jsncc22a8fe7c7d" },
+                             { "X-RapidAPI-Key", rapidKey },
                              { "X-RapidAPI-Host", "imdb-top-100-movies.p.rapidapi.com" },
                          },
             };
