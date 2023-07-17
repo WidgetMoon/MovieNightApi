@@ -1,7 +1,10 @@
 using Serilog;
 using Azure.Identity;
-using MovieNight.Core.Managers.Interfaces;
-using MovieNight.Core.Managers;
+using MovieNight.Data.DbContexts;
+using MovieNight.Data;
+using MovieNight.Core.Handlers.Interfaces;
+using MovieNight.Core.Handlers;
+using Microsoft.Extensions.Configuration;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
@@ -12,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog();
 
-builder.Services.AddControllers(options=>
+builder.Services.AddControllers(options =>
 {
     options.ReturnHttpNotAcceptable = true;
 }).AddNewtonsoftJson();
@@ -20,39 +23,33 @@ builder.Services.AddControllers(options=>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddApiVersioning(setupAction =>
-{
-    setupAction.AssumeDefaultVersionWhenUnspecified = true;
-    setupAction.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
-    setupAction.ReportApiVersions = true;
-});
+//builder.Services.AddApiVersioning(setupAction =>
+//{
+//    setupAction.AssumeDefaultVersionWhenUnspecified = true;
+//    setupAction.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+//    setupAction.ReportApiVersions = true;
+//});
 
 builder.Services.AddScoped<IMovieManager, MovieManager>();
 
 // Add Azure App Configuration to the container.
 var azAppConfigConnection = builder.Configuration["AppConfig"];
+
 if (!string.IsNullOrEmpty(azAppConfigConnection))
 {
-    var credentials = new DefaultAzureCredential(true);
-    // Use the connection string if it is available.
+    var credentials = new DefaultAzureCredential();
     builder.Configuration.AddAzureAppConfiguration(options =>
     {
         options.Connect(azAppConfigConnection)
-        .ConfigureRefresh(refresh =>
-        {
-            // All configuration values will be refreshed if the sentinel key changes.
-            refresh.Register("TestApp:Settings:Sentinel", refreshAll: true);
-        }).ConfigureKeyVault(kv =>
+        .ConfigureKeyVault(kv =>
         {
             kv.SetCredential(credentials);
         })
         .Select("MovieNight:*")
         .TrimKeyPrefix("MovieNight:");
+
     });
 }
-//TODO
-//try to understand how the fuck does this work, until then using the one above config
-/* 
 else if (Uri.TryCreate(builder.Configuration["Endpoints:AppConfig"], UriKind.Absolute, out var endpoint))
 {
     // Use Azure Active Directory authentication.
@@ -60,25 +57,27 @@ else if (Uri.TryCreate(builder.Configuration["Endpoints:AppConfig"], UriKind.Abs
     // For more information, please visit https://aka.ms/vs/azure-app-configuration/concept-enable-rbac
     builder.Configuration.AddAzureAppConfiguration(options =>
     {
-        options.Connect(endpoint, new DefaultAzureCredential())
-        .ConfigureRefresh(refresh =>
+        var credentials = new ManagedIdentityCredential();
+        options.Connect(endpoint, credentials)
+        .ConfigureKeyVault(kv =>
         {
-            // All configuration values will be refreshed if the sentinel key changes.
-            refresh.Register("TestApp:Settings:Sentinel", refreshAll: true);
-        });
+            kv.SetCredential(credentials);
+        })
+        .Select("MovieNight:*")
+        .TrimKeyPrefix("MovieNight:");
     });
 }
-*/
+
 builder.Services.AddAzureAppConfiguration();
+builder.Services.AddScoped<IMovieHandler, MovieHandler>();
+builder.Services.PersistenceServiceRegistrations<MovieNightDbContext>(builder.Configuration);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+
 app.UseAzureAppConfiguration();
 
 app.UseHttpsRedirection();
