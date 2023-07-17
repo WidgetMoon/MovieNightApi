@@ -63,7 +63,7 @@ else if (Uri.TryCreate(builder.Configuration["Endpoints:AppConfig"], UriKind.Abs
     // For more information, please visit https://aka.ms/vs/azure-app-configuration/concept-enable-rbac
     builder.Configuration.AddAzureAppConfiguration(options =>
     {
-        var credentials = new DefaultAzureCredential();asdASD   
+        var credentials = new DefaultAzureCredential();
         options.Connect(endpoint, credentials)
         .ConfigureKeyVault(kv =>
         {
