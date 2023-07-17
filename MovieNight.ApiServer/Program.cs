@@ -4,7 +4,6 @@ using MovieNight.Data.DbContexts;
 using MovieNight.Data;
 using MovieNight.Core.Handlers.Interfaces;
 using MovieNight.Core.Handlers;
-using Microsoft.Extensions.Configuration;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
@@ -23,14 +22,21 @@ builder.Services.AddControllers(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.ConfigureSwaggerGen(setup =>
+{
+    setup.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Movie Night",
+        Version = "v1"
+    });
+});
+
 //builder.Services.AddApiVersioning(setupAction =>
 //{
 //    setupAction.AssumeDefaultVersionWhenUnspecified = true;
 //    setupAction.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
 //    setupAction.ReportApiVersions = true;
 //});
-
-builder.Services.AddScoped<IMovieManager, MovieManager>();
 
 // Add Azure App Configuration to the container.
 var azAppConfigConnection = builder.Configuration["AppConfig"];
@@ -74,9 +80,8 @@ builder.Services.PersistenceServiceRegistrations<MovieNightDbContext>(builder.Co
 
 var app = builder.Build();
 
-
-    app.UseSwagger();
-    app.UseSwaggerUI();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseAzureAppConfiguration();
 

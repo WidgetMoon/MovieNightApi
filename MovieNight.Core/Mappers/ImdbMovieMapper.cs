@@ -10,8 +10,10 @@ namespace MovieNight.Core.Mappers
 {
     public static class ImdbMovieMapper
     {
-        public static IEnumerable<MovieEntity> Map(IEnumerable<ImdbMovieModel> from)
+        public static IEnumerable<MovieEntity> Map(IEnumerable<ImdbMovieModel>? from)
         {
+            if(from is null) return Enumerable.Empty<MovieEntity>();
+
             var result = new List<MovieEntity>();
 
             foreach (var item in from)

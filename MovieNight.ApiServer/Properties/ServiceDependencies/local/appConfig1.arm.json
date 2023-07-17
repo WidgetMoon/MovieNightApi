@@ -36,7 +36,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat('wm-general-config-dev', subscription().subscriptionId)))]",
+      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat('wm-general-appconfiguration', subscription().subscriptionId)))]",
       "resourceGroup": "[parameters('resourceGroupName')]",
       "apiVersion": "2019-10-01",
       "dependsOn": [
@@ -53,17 +53,17 @@
               "location": "[parameters('resourceLocation')]",
               "properties": {},
               "sku": {
-                "name": "standard"
+                "name": "free"
               },
               "systemData": {
                 "createdBy": "adam.moricz@gmail.com",
                 "createdByType": "User",
-                "createdAt": "2023-06-28T16:30:35+02:00",
+                "createdAt": "2023-07-17T10:11:51+02:00",
                 "lastModifiedBy": "adam.moricz@gmail.com",
                 "lastModifiedByType": "User",
-                "lastModifiedAt": "2023-06-28T16:30:37+02:00"
+                "lastModifiedAt": "2023-07-17T10:11:52+02:00"
               },
-              "name": "wm-general-config-dev",
+              "name": "wm-general-appconfiguration",
               "apiVersion": "2022-05-01"
             }
           ]

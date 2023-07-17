@@ -4,7 +4,7 @@ using MovieNight.Core.Handlers.Interfaces;
 
 namespace MovieNight.ApiServer.Controllers
 {
-    [Route("api/movies")]
+    [Route("/")]
     [ApiController]
     public class MoviesController : ControllerBase
     {
@@ -42,6 +42,13 @@ namespace MovieNight.ApiServer.Controllers
             }
             var result = await _movieHandler.GetRandomMovies(count);
             return Ok(result);
+        }
+
+        [HttpGet("downloadTop100")]
+        public async Task<ActionResult> DownloadTopMovies()
+        {
+            await _movieHandler.GetTop100Movies();
+            return Ok();
         }
     }
 }
