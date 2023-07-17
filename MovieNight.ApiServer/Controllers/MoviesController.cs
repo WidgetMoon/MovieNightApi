@@ -4,7 +4,7 @@ using MovieNight.Core.Handlers.Interfaces;
 
 namespace MovieNight.ApiServer.Controllers
 {
-    [Route("/")]
+    [Route("api/movies")]
     [ApiController]
     public class MoviesController : ControllerBase
     {
@@ -47,8 +47,12 @@ namespace MovieNight.ApiServer.Controllers
         [HttpGet("downloadTop100")]
         public async Task<ActionResult> DownloadTopMovies()
         {
-            await _movieHandler.GetTop100Movies();
-            return Ok();
+            var result = await _movieHandler.GetTop100Movies();
+            if(result is null)
+            {
+                return BadRequest("Something went wrong at downloading!");
+            }
+            return Ok(result);
         }
     }
 }
