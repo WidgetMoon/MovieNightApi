@@ -3,9 +3,6 @@
     "secrets2": {
       "type": "secrets"
     },
-    "apis1": {
-      "type": "apis"
-    },
     "appConfig1": {
       "type": "appConfig",
       "connectionId": "AppConfig"
@@ -14,6 +11,9 @@
       "type": "secrets",
       "connectionId": "VaultUri",
       "dynamicId": null
+    },
+    "apis1": {
+      "type": "apis"
     }
   }
 }
