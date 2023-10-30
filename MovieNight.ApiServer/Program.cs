@@ -12,6 +12,9 @@ Log.Logger = new LoggerConfiguration()
 
 var builder = WebApplication.CreateBuilder(args);
 
+//var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
+//builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
+
 builder.Host.UseSerilog();
 
 builder.Services.AddControllers(options =>
@@ -41,38 +44,51 @@ builder.Services.ConfigureSwaggerGen(setup =>
 // Add Azure App Configuration to the container.
 var azAppConfigConnection = builder.Configuration["AppConfig"];
 
-if (!string.IsNullOrEmpty(azAppConfigConnection))
-{
-    var credentials = new DefaultAzureCredential();
-    builder.Configuration.AddAzureAppConfiguration(options =>
-    {
-        options.Connect(azAppConfigConnection)
-        .ConfigureKeyVault(kv =>
-        {
-            kv.SetCredential(credentials);
-        })
-        .Select("MovieNight:*")
-        .TrimKeyPrefix("MovieNight:");
+//if (string.IsNullOrEmpty(azAppConfigConnection))
+//{
+//    var credentials = new DefaultAzureCredential();
+//    builder.Configuration.AddAzureAppConfiguration(options =>
+//    {
+//        options.Connect(azAppConfigConnection)
+//        .ConfigureKeyVault(kv =>
+//        {
+//            kv.SetCredential(credentials);
+//        })
+//        .Select("MovieNight:*")
+//        .TrimKeyPrefix("MovieNight:");
 
-    });
-}
-else if (Uri.TryCreate(builder.Configuration["Endpoints:AppConfig"], UriKind.Absolute, out var endpoint))
+//    });
+//}
+//else if (Uri.TryCreate(builder.Configuration["Endpoints:AppConfig"], UriKind.Absolute, out var endpoint))
+//{
+//    // Use Azure Active Directory authentication.
+//    // The identity of this app should be assigned 'App Configuration Data Reader' or 'App Configuration Data Owner' role in App Configuration.
+//    // For more information, please visit https://aka.ms/vs/azure-app-configuration/concept-enable-rbac
+
+//    builder.Configuration.AddAzureAppConfiguration(options =>
+//    {
+//        var credentials = new DefaultAzureCredential();
+//        options.Connect(endpoint, credentials)
+//            .ConfigureKeyVault(kv =>
+//            {
+//                kv.SetCredential(credentials);
+//            });
+
+//    });
+//}
+
+var endpoint = builder.Configuration["Endpoints:AppConfig"];
+var credentials = new DefaultAzureCredential();
+builder.Configuration.AddAzureAppConfiguration(opt =>
 {
-    // Use Azure Active Directory authentication.
-    // The identity of this app should be assigned 'App Configuration Data Reader' or 'App Configuration Data Owner' role in App Configuration.
-    // For more information, please visit https://aka.ms/vs/azure-app-configuration/concept-enable-rbac
-    builder.Configuration.AddAzureAppConfiguration(options =>
-    {
-        var credentials = new DefaultAzureCredential();
-        options.Connect(endpoint, credentials)
+    opt.Connect(new Uri(endpoint), credentials)
         .ConfigureKeyVault(kv =>
         {
             kv.SetCredential(credentials);
         })
         .Select("MovieNight:*")
         .TrimKeyPrefix("MovieNight:");
-    });
-}
+});
 
 builder.Services.AddAzureAppConfiguration();
 builder.Services.AddScoped<IMovieHandler, MovieHandler>();

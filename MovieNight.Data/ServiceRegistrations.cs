@@ -14,7 +14,7 @@ namespace MovieNight.Data
             where TDbContext : MovieNightDbContext
         {
             services.AddDbContext<MovieNightDbContext>(db=>
-                                            db.UseSqlServer(configuration.GetConnectionString("MovieNightDbConn")));
+                                            db.UseSqlServer(configuration.GetConnectionString("DbConnection")));
             
             services.AddScoped<IMovieNightRepository, MovieNightRepository>();
 

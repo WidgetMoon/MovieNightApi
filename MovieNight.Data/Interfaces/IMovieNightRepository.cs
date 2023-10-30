@@ -11,7 +11,7 @@ namespace MovieNight.Data.Interfaces
     {
         Task AddAsync(MovieEntity entity);
         Task<MovieEntity> GetAsync(int id);
-        Task<IEnumerable<MovieEntity>> GetAllAsync();
-        Task<IEnumerable<MovieEntity>> GetRandomMovies(int count);
+        Task<IEnumerable<MovieEntity>> GetRandomMoviesAsync(int count);
+        Task<int> CountMoviesAsync();
     }
 }

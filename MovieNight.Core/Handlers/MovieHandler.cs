@@ -18,6 +18,7 @@ namespace MovieNight.Core.Handlers
             _movieRepository = movieRepository;
             _configuration = configuration;
         }
+
         public async Task<MovieEntity> GetMovieById(int id)
         {
             return await _movieRepository.GetAsync(id);
@@ -25,8 +26,13 @@ namespace MovieNight.Core.Handlers
 
         public async Task<MovieEntity> GetTop100Movies()
         {
+            if (await _movieRepository.CountMoviesAsync() >= 100)
+            {
+                return await _movieRepository.GetAsync(1);
+            }
+
             var client = new HttpClient();
-            var rapidKey = _configuration["XRapidKey"];
+            var rapidKey = _configuration["XRapidKey:ImdbTop100"];
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
@@ -57,7 +63,12 @@ namespace MovieNight.Core.Handlers
 
         public async Task<IEnumerable<MovieEntity>> GetRandomMovies(int count)
         {
-            return await _movieRepository.GetRandomMovies(count);
+            return await _movieRepository.GetRandomMoviesAsync(count);
+        }
+
+        public Task GetTop250ImdbMovies()
+        {
+            throw new NotImplementedException();
         }
     }
 }

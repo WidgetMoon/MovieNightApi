@@ -12,5 +12,6 @@ namespace MovieNight.Core.Handlers.Interfaces
         Task<MovieEntity> GetMovieById(int id);
         Task<MovieEntity> GetTop100Movies();
         Task<IEnumerable<MovieEntity>> GetRandomMovies(int count);
+        Task GetTop250ImdbMovies();
     }
 }

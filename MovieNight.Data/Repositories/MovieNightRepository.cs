@@ -25,20 +25,20 @@ namespace MovieNight.Data.Repositories
             await _dbContext.Movies.AddAsync(entity);
             _dbContext.SaveChanges();
         }
-
-        public Task<IEnumerable<MovieEntity>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public async Task<MovieEntity> GetAsync(int id)
         {
             return await _dbContext.Movies.FirstOrDefaultAsync(m => m.Id == id);
         }
 
-        public async Task<IEnumerable<MovieEntity>> GetRandomMovies(int count)
+        public async Task<IEnumerable<MovieEntity>> GetRandomMoviesAsync(int count)
         {
             return await _dbContext.Movies.OrderBy(r => Guid.NewGuid()).Take(count).ToListAsync();
+        }
+
+        public async Task<int> CountMoviesAsync()
+        {
+            return await _dbContext.Movies.CountAsync();
         }
     }
 }

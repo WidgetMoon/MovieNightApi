@@ -17,8 +17,8 @@
       "applicationUrl": "http://localhost:5123",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "VaultUri": "https://wm-sql-db-dev.vault.azure.net/",
-        "AZURE_USERNAME": "adam.moricz@gmail.com"
+        "VaultUri": "https://wm-common-keyvault.vault.azure.net/",
+        "AZURE_USERNAME": "adam.moricz@eset.com"
       }
     },
     "https": {
@@ -29,8 +29,8 @@
       "applicationUrl": "https://localhost:7147;http://localhost:5123",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "VaultUri": "https://wm-sql-db-dev.vault.azure.net/",
-        "AZURE_USERNAME": "adam.moricz@gmail.com"
+        "VaultUri": "https://wm-common-keyvault.vault.azure.net/",
+        "AZURE_USERNAME": "adam.moricz@eset.com"
       }
     },
     "IIS Express": {
@@ -39,8 +39,8 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "VaultUri": "https://wm-sql-db-dev.vault.azure.net/",
-        "AZURE_USERNAME": "adam.moricz@gmail.com"
+        "VaultUri": "https://wm-common-keyvault.vault.azure.net/",
+        "AZURE_USERNAME": "adam.moricz@eset.com"
       }
     }
   }
