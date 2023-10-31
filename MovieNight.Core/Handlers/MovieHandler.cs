@@ -3,8 +3,9 @@ using MovieNight.Core.Handlers.Interfaces;
 using MovieNight.Core.Mappers;
 using MovieNight.Core.Models.ImdbResponseModel;
 using MovieNight.Data.Entities;
-using MovieNight.Data.Interfaces;
 using System.Net.Http.Json;
+using MovieNight.Domain.Domain;
+using MovieNight.Domain.Interfaces;
 
 namespace MovieNight.Core.Handlers
 {
@@ -19,20 +20,26 @@ namespace MovieNight.Core.Handlers
             _configuration = configuration;
         }
 
-        public async Task<MovieEntity> GetMovieById(int id)
+        public async Task<Movie> GetMovieById(int id)
         {
             return await _movieRepository.GetAsync(id);
         }
 
-        public async Task<MovieEntity> GetTop100Movies()
+        public async Task GetTop100Movies()
         {
             if (await _movieRepository.CountMoviesAsync() >= 100)
             {
-                return await _movieRepository.GetAsync(1);
+                return;
             }
 
             var client = new HttpClient();
             var rapidKey = _configuration["XRapidKey:ImdbTop100"];
+
+            if (rapidKey is null)
+            {
+                throw new ArgumentNullException(nameof(rapidKey));
+            }
+
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
@@ -48,20 +55,21 @@ namespace MovieNight.Core.Handlers
                 response.EnsureSuccessStatusCode();
                 var body = await response.Content.ReadFromJsonAsync<IEnumerable<ImdbMovieModel>>();
 
-                var result = ImdbMovieMapper.Map(body);
+                if (body is null)
+                {
+                    throw new HttpRequestException("Response body is null.");
+                }
 
-                Console.WriteLine(body);
+                var result = ImdbMovieMapper.Map(body);
 
                 foreach (var item in result)
                 {
                     await _movieRepository.AddAsync(item);
                 }
             }
-
-            return await _movieRepository.GetAsync(1);
         }
 
-        public async Task<IEnumerable<MovieEntity>> GetRandomMovies(int count)
+        public async Task<IEnumerable<Movie>> GetRandomMovies(int count)
         {
             return await _movieRepository.GetRandomMoviesAsync(count);
         }

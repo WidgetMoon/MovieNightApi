@@ -5,16 +5,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MovieNight.Domain.Domain;
 
 namespace MovieNight.Core.Mappers
 {
     public static class ImdbMovieMapper
     {
-        public static IEnumerable<MovieEntity> Map(IEnumerable<ImdbMovieModel>? from)
+        public static IEnumerable<Movie> Map(IEnumerable<ImdbMovieModel>? from)
         {
-            if(from is null) return Enumerable.Empty<MovieEntity>();
+            if(from is null) return Enumerable.Empty<Movie>();
 
-            var result = new List<MovieEntity>();
+            var result = new List<Movie>();
 
             foreach (var item in from)
             {
@@ -25,9 +26,9 @@ namespace MovieNight.Core.Mappers
             return result;
         }
 
-        public static MovieEntity MapMovie(ImdbMovieModel from)
+        public static Movie MapMovie(ImdbMovieModel from)
         {
-            return new MovieEntity(
+            return new Movie(
                 title: from.Title,
                 dateDownloaded: DateTime.UtcNow,
                 rank: from.Rank,

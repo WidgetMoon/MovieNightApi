@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MovieNight.Data.Entities
+namespace MovieNight.Domain.Domain
 {
-    public class MovieEntity
+    public class Movie
     {
         [Key]
         public int Id { get; private set; }
@@ -20,9 +20,9 @@ namespace MovieNight.Data.Entities
         public IEnumerable<string>? Writers { get; set; }
         public string? ImdbId { get; set; }
 
-        private MovieEntity() { }
+        private Movie() { }
 
-        public MovieEntity(string title, DateTime? dateDownloaded, int rank, Uri thumbnail, float rating, int year, Uri image, string description, Uri trailer, IEnumerable<string> genres, IEnumerable<string> directors, IEnumerable<string> writers, string imdbId)
+        public Movie(string title, DateTime? dateDownloaded, int rank, Uri thumbnail, float rating, int year, Uri image, string description, Uri trailer, IEnumerable<string> genres, IEnumerable<string> directors, IEnumerable<string> writers, string imdbId)
         {
             Title = title;
             DateDownloaded = dateDownloaded;

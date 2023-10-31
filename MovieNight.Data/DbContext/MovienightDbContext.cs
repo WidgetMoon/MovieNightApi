@@ -7,12 +7,13 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using MovieNight.Domain.Domain;
 
 namespace MovieNight.Data.DbContexts
 {
     public class MovieNightDbContext : DbContext
     {
-        public DbSet<MovieEntity> Movies { get; set; }
+        public DbSet<Movie> Movies { get; set; }
 
         public MovieNightDbContext(DbContextOptions options) : base(options) { }
 

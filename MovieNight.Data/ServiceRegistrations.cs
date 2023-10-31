@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MovieNight.Data.DbContexts;
-using MovieNight.Data.Interfaces;
 using MovieNight.Data.Repositories;
+using MovieNight.Domain.Interfaces;
 
 namespace MovieNight.Data
 {

@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MovieNight.Domain.Domain;
 
 namespace MovieNight.Data.Entities.Configurations
 {
-    public class MovieEntityConfiguration : IEntityTypeConfiguration<MovieEntity>
+    public class MovieEntityConfiguration : IEntityTypeConfiguration<Movie>
     {
-        public void Configure(EntityTypeBuilder<MovieEntity> builder)
+        public void Configure(EntityTypeBuilder<Movie> builder)
         {
             builder.ToTable("Movie");
             builder.HasKey(x => x.Id);

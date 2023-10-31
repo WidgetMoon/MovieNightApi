@@ -1,17 +1,12 @@
-﻿using MovieNight.Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MovieNight.Domain.Domain;
 
 namespace MovieNight.Core.Handlers.Interfaces
 {
     public interface IMovieHandler
     {
-        Task<MovieEntity> GetMovieById(int id);
-        Task<MovieEntity> GetTop100Movies();
-        Task<IEnumerable<MovieEntity>> GetRandomMovies(int count);
+        Task<Movie> GetMovieById(int id);
+        Task GetTop100Movies();
+        Task<IEnumerable<Movie>> GetRandomMovies(int count);
         Task GetTop250ImdbMovies();
     }
 }

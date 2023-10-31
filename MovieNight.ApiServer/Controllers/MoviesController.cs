@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MovieNight.Core.Handlers.Interfaces;
 
 namespace MovieNight.ApiServer.Controllers
@@ -30,7 +29,7 @@ namespace MovieNight.ApiServer.Controllers
                 return Ok(result);
             }
 
-            return NotFound();
+            return NotFound("Movie with given ID does not exist.");
         }
 
         [HttpGet("random/{count}")]
@@ -47,12 +46,16 @@ namespace MovieNight.ApiServer.Controllers
         [HttpGet("downloadTop100")]
         public async Task<ActionResult> DownloadTopMovies()
         {
-            var result = await _movieHandler.GetTop100Movies();
-            if(result is null)
+            try
             {
-                return BadRequest("Something went wrong at downloading!");
+                await _movieHandler.GetTop100Movies();
             }
-            return Ok(result);
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
+            return Ok();
         }
     }
 }

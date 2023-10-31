@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieNight.Data.DbContexts;
 using MovieNight.Data.Entities;
-using MovieNight.Data.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MovieNight.Domain.Domain;
+using MovieNight.Domain.Interfaces;
 
 namespace MovieNight.Data.Repositories
 {
@@ -19,19 +20,19 @@ namespace MovieNight.Data.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task AddAsync(MovieEntity entity)
+        public async Task AddAsync(Movie movie)
         {
-            if (entity == null) return;
-            await _dbContext.Movies.AddAsync(entity);
+            if (movie == null) return;
+            await _dbContext.Movies.AddAsync(movie);
             _dbContext.SaveChanges();
         }
         
-        public async Task<MovieEntity> GetAsync(int id)
+        public async Task<Movie> GetAsync(int id)
         {
             return await _dbContext.Movies.FirstOrDefaultAsync(m => m.Id == id);
         }
 
-        public async Task<IEnumerable<MovieEntity>> GetRandomMoviesAsync(int count)
+        public async Task<IEnumerable<Movie>> GetRandomMoviesAsync(int count)
         {
             return await _dbContext.Movies.OrderBy(r => Guid.NewGuid()).Take(count).ToListAsync();
         }
