@@ -1,9 +1,11 @@
-using Serilog;
 using Azure.Identity;
-using MovieNight.Data.DbContexts;
-using MovieNight.Data;
-using MovieNight.Core.Handlers.Interfaces;
+using Microsoft.OpenApi.Models;
 using MovieNight.Core.Handlers;
+using MovieNight.Core.Handlers.Interfaces;
+using MovieNight.Data;
+using MovieNight.Data.DbContexts;
+using Serilog;
+using System.Reflection;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
@@ -11,9 +13,6 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
-
-//var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
-//builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
 
 builder.Host.UseSerilog();
 
@@ -30,8 +29,17 @@ builder.Services.ConfigureSwaggerGen(setup =>
     setup.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
     {
         Title = "Movie Night",
-        Version = "v1"
+        Version = "v1",
+        Description = "Api for our MovieNight application. Movies are from RapidApi and mainly from IMDB sources.",
+        Contact = new OpenApiContact
+        {
+            Name = "Adam Moricz",
+            Email = "adam.moricz@gmail.com"
+        }
     });
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    setup.IncludeXmlComments(xmlPath);
 });
 
 //builder.Services.AddApiVersioning(setupAction =>
@@ -41,47 +49,11 @@ builder.Services.ConfigureSwaggerGen(setup =>
 //    setupAction.ReportApiVersions = true;
 //});
 
-// Add Azure App Configuration to the container.
-var azAppConfigConnection = builder.Configuration["AppConfig"];
-
-//if (string.IsNullOrEmpty(azAppConfigConnection))
-//{
-//    var credentials = new DefaultAzureCredential();
-//    builder.Configuration.AddAzureAppConfiguration(options =>
-//    {
-//        options.Connect(azAppConfigConnection)
-//        .ConfigureKeyVault(kv =>
-//        {
-//            kv.SetCredential(credentials);
-//        })
-//        .Select("MovieNight:*")
-//        .TrimKeyPrefix("MovieNight:");
-
-//    });
-//}
-//else if (Uri.TryCreate(builder.Configuration["Endpoints:AppConfig"], UriKind.Absolute, out var endpoint))
-//{
-//    // Use Azure Active Directory authentication.
-//    // The identity of this app should be assigned 'App Configuration Data Reader' or 'App Configuration Data Owner' role in App Configuration.
-//    // For more information, please visit https://aka.ms/vs/azure-app-configuration/concept-enable-rbac
-
-//    builder.Configuration.AddAzureAppConfiguration(options =>
-//    {
-//        var credentials = new DefaultAzureCredential();
-//        options.Connect(endpoint, credentials)
-//            .ConfigureKeyVault(kv =>
-//            {
-//                kv.SetCredential(credentials);
-//            });
-
-//    });
-//}
-
 var endpoint = builder.Configuration["Endpoints:AppConfig"];
 var credentials = new DefaultAzureCredential();
 builder.Configuration.AddAzureAppConfiguration(opt =>
 {
-    opt.Connect(new Uri(endpoint), credentials)
+    opt.Connect(new Uri(endpoint!), credentials)
         .ConfigureKeyVault(kv =>
         {
             kv.SetCredential(credentials);

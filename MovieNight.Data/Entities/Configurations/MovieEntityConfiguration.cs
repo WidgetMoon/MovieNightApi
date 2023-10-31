@@ -16,11 +16,11 @@ namespace MovieNight.Data.Entities.Configurations
             builder.ToTable("Movie");
             builder.HasKey(x => x.Id);
 
-            builder.Property(m => m.Writers).HasConversion(v => string.Join(',', v),
+            builder.Property(m => m.Writers).HasConversion(v => string.Join(',', v!),
                         v => v.Split(',', StringSplitOptions.RemoveEmptyEntries));
-            builder.Property(m => m.Directors).HasConversion(v => string.Join(',', v),
+            builder.Property(m => m.Directors).HasConversion(v => string.Join(',', v!),
                         v => v.Split(',', StringSplitOptions.RemoveEmptyEntries));
-            builder.Property(m => m.Genres).HasConversion(v => string.Join(',', v),
+            builder.Property(m => m.Genres).HasConversion(v => string.Join(',', v!),
                         v => v.Split(',', StringSplitOptions.RemoveEmptyEntries));
 
         }
