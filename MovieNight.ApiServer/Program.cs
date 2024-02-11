@@ -42,6 +42,16 @@ builder.Services.ConfigureSwaggerGen(setup =>
     setup.IncludeXmlComments(xmlPath);
 });
 
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("CorsPolicy",
+        builder => 
+            builder.WithOrigins("http://localhost:5173")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials());
+});
+
 //builder.Services.AddApiVersioning(setupAction =>
 //{
 //    setupAction.AssumeDefaultVersionWhenUnspecified = true;
@@ -67,7 +77,7 @@ builder.Services.AddScoped<IMovieHandler, MovieHandler>();
 builder.Services.PersistenceServiceRegistrations<MovieNightDbContext>(builder.Configuration);
 
 var app = builder.Build();
-
+app.UseCors("CorsPolicy");
 app.UseSwagger();
 app.UseSwaggerUI();
 
