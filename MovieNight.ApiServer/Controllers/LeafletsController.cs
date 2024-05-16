@@ -16,6 +16,13 @@ namespace MovieNight.ApiServer.Controllers
             _movieHandler = movieHandler;
         }
 
+        /// <summary>
+        /// Gets leaflets for the given products.
+        /// </summary>
+        /// <param name="products">Products names</param>
+        /// <returns>Leaflets for products.</returns>
+        /// <response code="200">Returns leaflets for products.</response>
+        /// <response code="404">If the leaflets are not found.</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
