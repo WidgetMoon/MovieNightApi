@@ -109,5 +109,23 @@ namespace MovieNight.ApiServer.Controllers
 
             return Ok();
         }
+
+        /// <summary>
+        /// Gets leaflets for the given products.
+        /// </summary>
+        /// <param name="products">Products names</param>
+        /// <returns>Leaflets for products.</returns>
+        /// <response code="200">Returns leaflets for products.</response>
+        /// <response code="404">If the leaflets are not found.</response>
+        [HttpPost("products")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetLeaflets([FromBody] List<string> products)
+        {
+            var leaflets = await _movieHandler.GetOfferLeafletsAsync(products);
+            if (leaflets == null || leaflets.Count == 0)
+                return NotFound();
+            return Ok(leaflets);
+        }
     }
 }

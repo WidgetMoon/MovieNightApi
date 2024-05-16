@@ -27,7 +27,7 @@ namespace MovieNight.ApiServer.Controllers
         /// <returns>Leaflets for products.</returns>
         /// <response code="200">Returns leaflets for products.</response>
         /// <response code="404">If the leaflets are not found.</response>
-        [HttpPost("products")]
+        [HttpPost()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetLeaflets([FromBody] List<string> products)

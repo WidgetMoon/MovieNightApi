@@ -6,6 +6,8 @@ using MovieNight.Data;
 using MovieNight.Data.DbContexts;
 using Serilog;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
@@ -37,6 +39,10 @@ builder.Services.ConfigureSwaggerGen(setup =>
             Email = "adam.moricz@gmail.com"
         }
     });
+    //swagger generator will look for xml file in the same directory as the assembly
+    setup.SwaggerGeneratorOptions.DescribeAllParametersInCamelCase  = true;
+    
+
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     setup.IncludeXmlComments(xmlPath);
