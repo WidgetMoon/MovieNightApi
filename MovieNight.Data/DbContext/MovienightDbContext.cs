@@ -14,6 +14,7 @@ namespace MovieNight.Data.DbContexts
     public class MovieNightDbContext : DbContext
     {
         public DbSet<Movie> Movies { get; set; }
+        public DbSet<Leaflet> Leaflets { get; set; }
 
         public MovieNightDbContext(DbContextOptions options) : base(options) { }
 

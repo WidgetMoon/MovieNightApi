@@ -78,5 +78,10 @@ namespace MovieNight.Core.Handlers
         {
             throw new NotImplementedException();
         }
+
+        public Task<List<Leaflet>> GetOfferLeafletsAsync(List<string> products)
+        {
+            return _movieRepository.GetOfferLeafletsAsync(products);
+        }
     }
 }

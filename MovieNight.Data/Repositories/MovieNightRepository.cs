@@ -26,7 +26,7 @@ namespace MovieNight.Data.Repositories
             await _dbContext.Movies.AddAsync(movie);
             _dbContext.SaveChanges();
         }
-        
+
         public async Task<Movie> GetAsync(int id)
         {
             return await _dbContext.Movies.FirstOrDefaultAsync(m => m.Id == id);
@@ -40,6 +40,14 @@ namespace MovieNight.Data.Repositories
         public async Task<int> CountMoviesAsync()
         {
             return await _dbContext.Movies.CountAsync();
+        }
+
+        public async Task<List<Leaflet>> GetOfferLeafletsAsync(List<string> productsName)
+        {
+            var products = await _dbContext.Leaflets.Where(l => l.EffectiveTo >= DateTime.Now).ToListAsync();
+            //return products that contain the productsName
+            var leaflets = products.Where(p => productsName.Any(name => p.Name.Contains(name))).ToList();
+            return leaflets;
         }
     }
 }

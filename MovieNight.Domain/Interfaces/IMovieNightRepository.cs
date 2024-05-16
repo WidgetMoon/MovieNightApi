@@ -8,5 +8,6 @@ namespace MovieNight.Domain.Interfaces
         Task<Movie> GetAsync(int id);
         Task<IEnumerable<Movie>> GetRandomMoviesAsync(int count);
         Task<int> CountMoviesAsync();
+        Task<List<Leaflet>> GetOfferLeafletsAsync(List<string> products);
     }
 }
