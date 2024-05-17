@@ -24,7 +24,7 @@ namespace MovieNight.ApiServer.Controllers
         /// Gets one movie by id.
         /// </summary>
         /// <remarks>
-        /// Sample request:
+        /// Sample response:
         ///
         ///     GET /Movie
         ///     {
