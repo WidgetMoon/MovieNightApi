@@ -35,7 +35,7 @@ builder.Services.ConfigureSwaggerGen(setup =>
         Description = "Api for our MovieNight application. Movies are from RapidApi and mainly from IMDB sources.",
         Contact = new OpenApiContact
         {
-            Name = "Adam Moricz",
+            Name = "Adam Moricz the best",
             Email = "adam.moricz@gmail.com"
         }
     });
