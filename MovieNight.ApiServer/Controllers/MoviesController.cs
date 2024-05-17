@@ -71,6 +71,27 @@ namespace MovieNight.ApiServer.Controllers
             return NotFound("Movie with given ID does not exist.");
         }
 
+        [HttpGet("move")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> GetMovieTest()
+        {
+            var id = 5;
+            if (id < 1 || id > 100)
+            {
+                return BadRequest("Id must be between 1 and 100");
+            }
+
+            var result = await _movieHandler.GetMovieById(id);
+
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+
+            return NotFound("Movie with given ID does not exist.");
+        }
+
         /// <summary>
         /// Gets random movies in range 1-100.
         /// </summary>
@@ -117,10 +138,11 @@ namespace MovieNight.ApiServer.Controllers
         /// <returns>Leaflets for products.</returns>
         /// <response code="200">Returns leaflets for products.</response>
         /// <response code="404">If the leaflets are not found.</response>
-        [HttpPost("products")]
+        [HttpPost]
+        [Route("leaflets")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetLeaflets([FromBody] List<string> products)
+        public async Task<IActionResult> GetLeaflets(List<string> products)
         {
             var leaflets = await _movieHandler.GetOfferLeafletsAsync(products);
             if (leaflets == null || leaflets.Count == 0)
