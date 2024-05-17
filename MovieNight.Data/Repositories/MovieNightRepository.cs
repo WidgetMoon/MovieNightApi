@@ -44,9 +44,12 @@ namespace MovieNight.Data.Repositories
 
         public async Task<List<Leaflet>> GetOfferLeafletsAsync(List<string> productsName)
         {
-            var products = await _dbContext.Leaflets.Where(l => l.EffectiveTo >= DateTime.Now).ToListAsync();
+            var products = await _dbContext.Leaflets
+                .Where(l => l.EffectiveTo >= DateTime.Now).ToListAsync();
+
             //return products that contain the productsName
-            var leaflets = products.Where(p => productsName.Any(name => p.Name.Contains(name))).ToList();
+            var leaflets = products.Where(p => productsName
+                .Any(name => p.FullPlainText.Contains(name))).ToList();
             return leaflets;
         }
     }

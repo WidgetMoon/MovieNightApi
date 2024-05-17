@@ -21,6 +21,7 @@ namespace MovieNight.Domain.Domain
         }
         public int Id { get; set; }
         public string Name { get; private set; }
+        public string FullPlainText { get; set; }
         public decimal? OffPercent { get; set; }
         public decimal OldPrice { get; private set; }
         public decimal NewPrice { get; private set; }

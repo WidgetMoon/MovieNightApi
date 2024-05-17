@@ -4,6 +4,7 @@ using MovieNight.Core.Mappers;
 using MovieNight.Core.Models.ImdbResponseModel;
 using MovieNight.Data.Entities;
 using System.Net.Http.Json;
+using MovieNight.Core.Helpers;
 using MovieNight.Domain.Domain;
 using MovieNight.Domain.Interfaces;
 
@@ -81,6 +82,9 @@ namespace MovieNight.Core.Handlers
 
         public Task<List<Leaflet>> GetOfferLeafletsAsync(List<string> products)
         {
+            //insert all products to lower with linq
+            products = products.Select(p => p.RemoveDiacriticsSpacesLower()).ToList();
+
             return _movieRepository.GetOfferLeafletsAsync(products);
         }
     }
