@@ -42,10 +42,6 @@ builder.Services.ConfigureSwaggerGen(setup =>
     //swagger generator will look for xml file in the same directory as the assembly
     setup.SwaggerGeneratorOptions.DescribeAllParametersInCamelCase  = true;
     
-
-    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    setup.IncludeXmlComments(xmlPath);
 });
 
 builder.Services.AddCors(opt =>
