@@ -1,10 +1,4 @@
 ﻿using MovieNight.Core.Models.ImdbResponseModel;
-using MovieNight.Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MovieNight.Domain.Domain;
 
 namespace MovieNight.Core.Mappers

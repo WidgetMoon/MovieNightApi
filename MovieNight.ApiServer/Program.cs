@@ -6,8 +6,6 @@ using MovieNight.Data;
 using MovieNight.Data.DbContexts;
 using Serilog;
 using System.Reflection;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
@@ -32,10 +30,10 @@ builder.Services.ConfigureSwaggerGen(setup =>
     {
         Title = "Movie Night",
         Version = "v1",
-        Description = "Api for our MovieNight application. Movies are from RapidApi and mainly from IMDB sources.",
+        Description = "Api for our MovieNight application and other things now like Sledovacik.",
         Contact = new OpenApiContact
         {
-            Name = "Adam Moricz the best",
+            Name = "Adam Moricz",
             Email = "adam.moricz@gmail.com"
         }
     });

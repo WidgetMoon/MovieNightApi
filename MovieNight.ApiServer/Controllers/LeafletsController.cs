@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MovieNight.Core.Handlers.Interfaces;
 using MovieNight.Core.Models.LeafletsRequest;
 
@@ -30,56 +29,63 @@ namespace MovieNight.ApiServer.Controllers
         ///     POST /leaflets
         ///     {
         ///         "products": [
-        ///             "Orion",
-        ///             "Uhorky",
-        ///             "Rajo"
+        ///             "Captain",
+        ///             "Tesco"
         ///         ]
         ///     }
         ///
         /// Sample response:
         ///
-        ///     [
-        ///         {
-        ///             "id": 63,
-        ///             "name": "Uhorky nakladačky voľný predaj. 1 kg",
-        ///             "offPercent": -27,
-        ///             "oldPrice": 3.99,
-        ///             "newPrice": 2.89,
-        ///             "createdAt": "2024-05-17T07:35:04.2677482",
-        ///             "effectiveFrom": "2024-05-15T00:00:00",
-        ///             "effectiveTo": "2024-05-21T00:00:00"
-        ///         },
-        ///         {
-        ///             "id": 85,
-        ///             "name": "Orion Kofila 35 g",
-        ///             "offPercent": -26,
-        ///             "oldPrice": 0.75,
-        ///             "newPrice": 0.55,
-        ///             "createdAt": "2024-05-17T07:35:14.1203142",
-        ///             "effectiveFrom": "2024-05-15T00:00:00",
-        ///             "effectiveTo": "2024-05-21T00:00:00"
-        ///         },
-        ///         {
-        ///             "id": 113,
-        ///             "name": "Rajo Lakto Free Acidko kyslomliečny nápoj* viac druhov, 450 g",
-        ///             "offPercent": -31,
-        ///             "oldPrice": 1.45,
-        ///             "newPrice": 0.99,
-        ///             "createdAt": "2024-05-17T07:35:19.7850364",
-        ///             "effectiveFrom": "2024-05-15T00:00:00",
-        ///             "effectiveTo": "2024-05-21T00:00:00"
-        ///         },
-        ///         {
-        ///             "id": 114,
-        ///             "name": "Rajo smotana na šľahanie 33 % 250 ml",
-        ///             "offPercent": -41,
-        ///             "oldPrice": 1.79,
-        ///             "newPrice": 1.05,
-        ///             "createdAt": "2024-05-17T07:35:19.8154246",
-        ///             "effectiveFrom": "2024-05-15T00:00:00",
-        ///             "effectiveTo": "2024-05-21T00:00:00"
-        ///         }
-        ///     ]
+        ///     {
+        ///         "captain": [
+        ///           {
+        ///               "id": 462,
+        ///               "name": "Captain Jack viac druhov, 330 ml",
+        ///               "fullPlainText": "captainjackviacdruhov,330ml",
+        ///               "offPercent": -27,
+        ///               "oldPrice": 1.09,
+        ///               "newPrice": 0.79,
+        ///               "createdAt": "2024-05-17T19:16:40.9454282",
+        ///               "effectiveFrom": "2024-05-15T00:00:00",
+        ///               "effectiveTo": "2024-05-28T00:00:00"
+        ///           },
+        ///           {
+        ///               "id": 466,
+        ///               "name": "Captain Morgan original spiced gold 35 % 0.71",
+        ///               "fullPlainText": "captainmorganoriginalspicedgold35%0.71",
+        ///               "offPercent": -26,
+        ///               "oldPrice": 14.99,
+        ///               "newPrice": 10.99,
+        ///               "createdAt": "2024-05-17T19:16:40.9776342",
+        ///               "effectiveFrom": "2024-05-15T00:00:00",
+        ///               "effectiveTo": "2024-05-28T00:00:00"
+        ///           }
+        ///         ],
+        ///         "tesco": [
+        ///           {
+        ///               "id": 467,
+        ///               "name": "SIM karta Tesco mobile Trio 15 GB",
+        ///               "fullPlainText": "simkartatescomobiletrio15gb",
+        ///               "offPercent": -58,
+        ///               "oldPrice": 11.99,
+        ///               "newPrice": 4.99,
+        ///               "createdAt": "2024-05-17T19:16:40.9865201",
+        ///               "effectiveFrom": "2024-05-15T00:00:00",
+        ///               "effectiveTo": "2024-05-28T00:00:00"
+        ///           },
+        ///           {
+        ///               "id": 498,
+        ///               "name": "Tesco kapsuly viac druhov, 112 - 256 g",
+        ///               "fullPlainText": "tescokapsulyviacdruhov,112-256g",
+        ///               "offPercent": -17,
+        ///               "oldPrice": 4.09,
+        ///               "newPrice": 3.39,
+        ///               "createdAt": "2024-05-17T19:16:44.7283397",
+        ///               "effectiveFrom": "2024-05-15T00:00:00",
+        ///               "effectiveTo": "2024-05-28T00:00:00"
+        ///           }
+        ///         ]
+        ///     }
         /// </remarks>
         /// <param name="products">Products names</param>
         /// <returns>Leaflets for products.</returns>

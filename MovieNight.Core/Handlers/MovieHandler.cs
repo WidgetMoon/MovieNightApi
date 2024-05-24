@@ -1,12 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MovieNight.Core.Handlers.Interfaces;
+using MovieNight.Core.Helpers;
 using MovieNight.Core.Mappers;
 using MovieNight.Core.Models.ImdbResponseModel;
-using MovieNight.Data.Entities;
-using System.Net.Http.Json;
-using MovieNight.Core.Helpers;
 using MovieNight.Domain.Domain;
 using MovieNight.Domain.Interfaces;
+using System.Net.Http.Json;
 
 namespace MovieNight.Core.Handlers
 {
@@ -80,12 +79,22 @@ namespace MovieNight.Core.Handlers
             throw new NotImplementedException();
         }
 
-        public Task<List<Leaflet>> GetOfferLeafletsAsync(List<string> products)
+        public async Task<Dictionary<string, List<Leaflet>>> GetOfferLeafletsAsync(List<string> products)
         {
             //insert all products to lower with linq
             products = products.Select(p => p.RemoveDiacriticsSpacesLower()).ToList();
+            var offers = await _movieRepository.GetAllActiveOffers();
+            var result = new Dictionary<string, List<Leaflet>>();
+            foreach (var product in products)
+            {
+                var offered = offers.Where(o => o.FullPlainText.RemoveDiacriticsSpacesLower().Contains(product)).ToList();
+                if (offered.Any())
+                {
+                    result.Add(product, offered);
+                }
+            }
 
-            return _movieRepository.GetOfferLeafletsAsync(products);
+            return result;
         }
     }
 }

@@ -9,5 +9,6 @@ namespace MovieNight.Domain.Interfaces
         Task<IEnumerable<Movie>> GetRandomMoviesAsync(int count);
         Task<int> CountMoviesAsync();
         Task<List<Leaflet>> GetOfferLeafletsAsync(List<string> products);
+        Task<List<Leaflet>> GetAllActiveOffers();
     }
 }

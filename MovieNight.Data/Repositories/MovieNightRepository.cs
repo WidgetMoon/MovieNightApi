@@ -1,11 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieNight.Data.DbContexts;
-using MovieNight.Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MovieNight.Domain.Domain;
 using MovieNight.Domain.Interfaces;
 
@@ -44,13 +38,19 @@ namespace MovieNight.Data.Repositories
 
         public async Task<List<Leaflet>> GetOfferLeafletsAsync(List<string> productsName)
         {
-            var products = await _dbContext.Leaflets
-                .Where(l => l.EffectiveTo >= DateTime.Now).ToListAsync();
+            var products = await GetAllActiveOffers();
 
             //return products that contain the productsName
             var leaflets = products.Where(p => productsName
                 .Any(name => p.FullPlainText.Contains(name))).ToList();
             return leaflets;
+        }
+
+        public async Task<List<Leaflet>> GetAllActiveOffers()
+        {
+            var products = await _dbContext.Leaflets
+                .Where(l => l.EffectiveTo >= DateTime.Now).ToListAsync();
+            return products;
         }
     }
 }

@@ -1,12 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MovieNight.Data.Entities;
 using MovieNight.Data.Entities.Configurations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using MovieNight.Domain.Domain;
 
 namespace MovieNight.Data.DbContexts

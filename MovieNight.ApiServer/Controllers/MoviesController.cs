@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieNight.Core.Handlers.Interfaces;
-using MovieNight.Domain.Domain;
 
 namespace MovieNight.ApiServer.Controllers
 {

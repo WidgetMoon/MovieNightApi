@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MovieNight.Domain.Domain
+﻿namespace MovieNight.Domain.Domain
 {
     public class Leaflet
     {
@@ -28,35 +26,5 @@ namespace MovieNight.Domain.Domain
         public DateTime CreatedAt { get; private set; }
         public DateTime EffectiveFrom { get; set; }
         public DateTime EffectiveTo { get; set; }
-
-        public void SetName(string name)
-        {
-            Name = name.Trim('*');
-        }
-
-        public void AddPrice(decimal price)
-        {
-            if (OldPrice == 0)
-            {
-                OldPrice = price;
-                return;
-            }
-
-            if (OldPrice < price)
-            {
-                NewPrice = OldPrice;
-                OldPrice = price;
-                return;
-            }
-            NewPrice = price;
-        }
-        public bool IsValid()
-        {
-            if (string.IsNullOrEmpty(Name)) return false;
-            if (!char.IsLetter(Name[0])) return false;
-            if (NewPrice == 0 || OldPrice == 0) return false;
-            return true;
-        }
     }
-
 }
