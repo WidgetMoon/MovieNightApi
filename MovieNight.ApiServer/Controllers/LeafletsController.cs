@@ -21,7 +21,7 @@ namespace MovieNight.ApiServer.Controllers
         }
 
         /// <summary>
-        /// Gets leaflets for given products that are actually in offer.
+        /// Gets offerings for given products that are actually in offer.
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -89,8 +89,8 @@ namespace MovieNight.ApiServer.Controllers
         /// </remarks>
         /// <param name="products">Products names</param>
         /// <returns>Leaflets for products.</returns>
-        /// <response code="200">Returns leaflets for products.</response>
-        /// <response code="404">If the leaflets are not found.</response>
+        /// <response code="200">Returns offers for products.</response>
+        /// <response code="404">If no offers are found.</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -100,6 +100,23 @@ namespace MovieNight.ApiServer.Controllers
             var leaflets = await _movieHandler.GetOfferLeafletsAsync(products);
             if (leaflets == null || leaflets.Count == 0)
                 return NotFound("No offers were found for the given products.");
+            return Ok(leaflets);
+        }
+
+        /// <summary>
+        /// Returns all active products where [EffectiveTo] is in the future and [EffectiveFrom] is in the past.
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="200">Returns all active offers.</response>
+        /// <response code="404">If no active offers were found.</response>
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetAllActiveOffers()
+        {
+            var leaflets = await _movieHandler.GetAllActiveOffers();
+            if (leaflets == null || leaflets.Count == 0)
+                return NotFound("No active offers were found. Please wait for new leaflets.");
             return Ok(leaflets);
         }
     }

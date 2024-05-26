@@ -49,7 +49,9 @@ namespace MovieNight.Data.Repositories
         public async Task<List<Leaflet>> GetAllActiveOffers()
         {
             var products = await _dbContext.Leaflets
-                .Where(l => l.EffectiveTo >= DateTime.Now).ToListAsync();
+                .Where(l => l.EffectiveTo >= DateTime.Now)
+                .OrderByDescending(p => p.Name)
+                .ToListAsync();
             return products;
         }
     }

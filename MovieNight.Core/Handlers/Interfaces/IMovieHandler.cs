@@ -9,5 +9,6 @@ namespace MovieNight.Core.Handlers.Interfaces
         Task<IEnumerable<Movie>> GetRandomMovies(int count);
         Task GetTop250ImdbMovies();
         Task<Dictionary<string, List<Leaflet>>> GetOfferLeafletsAsync(List<string> products);
+        Task<List<Leaflet>> GetAllActiveOffers();
     }
 }
