@@ -50,7 +50,7 @@ namespace MovieNight.Data.Repositories
         {
             var products = await _dbContext.Leaflets
                 .Where(l => l.EffectiveTo >= DateTime.Now)
-                .OrderByDescending(p => p.Name)
+                .OrderBy(p => p.Name)
                 .ToListAsync();
             return products;
         }
