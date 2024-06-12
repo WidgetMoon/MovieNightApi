@@ -97,6 +97,7 @@ namespace MovieNight.Core.Handlers
             return result;
         }
 
+        //TODO: Just commit message bro
         public async Task<List<Leaflet>> GetAllActiveOffers()
         {
             return await _movieRepository.GetAllActiveOffers();
